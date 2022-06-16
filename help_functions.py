@@ -1,5 +1,6 @@
 from fractions import Fraction
 import numpy as np
+import matplotlib.pyplot as plt
 import settings
 
 def inputInt(prompt):
@@ -59,16 +60,18 @@ def selfDefinedSystem():
     # User input to define their own system. Changes settings file
     # Input: user input for the self defined L-system
     # Output:
-    letteroptions = np.array(['A length', 'An angle'])
+    letteroptions = np.array(['A length', 'An angle', 'Do nothing'])
     while True:
-        alphabet = input('\nInput the alphabet of the system(without spaces), make sure you have no duplicates, and only uppercase letters: ')
-        if alphabet.isupper() != True or alphabet.isalpha() != True:
-            print('\nOnly uppercase letters are allowed')
+        alphabet = input('\nInput the alphabet of the system(without spaces), make sure you have no duplicates, and only uppercase letters (or [ or ] for saving/loading position): ')
+        allowed_chars = np.array(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', ']'])
+    
+        if np.all([char in allowed_chars for char in alphabet]) != True:
+            print('\nOnly uppercase letters and [ or ] are allowed')
         else:
             break
     
     settings.iteration_scaling = inputFraction('\nInput what value you want the length of segments in the system to be scaled by after each iteration: ')
-    settings.lettermapping = np.zeros((3,len(alphabet)), dtype = object) # for astoring the alphabet(0) along with replacement rules(1) and and turtle grahping rules(2)
+    settings.lettermapping = np.zeros((4,len(alphabet)), dtype = object) # for astoring the alphabet(0) along with replacement rules(1), turtle grahping rules(2), and turtle grahping action(3) (length or angle)
     
     while True:
         settings.selfdefined_start = input('\nInput the startcondition of the system: ')
@@ -80,6 +83,17 @@ def selfDefinedSystem():
     
     for i in range(len(alphabet)):
         settings.lettermapping[0,i] = alphabet[i]
+        # To be able to use [ and ]
+        if alphabet[i] == '[':
+            settings.lettermapping[1,i] = '['
+            settings.lettermapping[2,i] = 'save'
+            settings.lettermapping[3,i] = 'save'
+            break
+        elif alphabet[i] == ']':
+            settings.lettermapping[1,i] = ']'
+            settings.lettermapping[2,i] = 'load'
+            settings.lettermapping[3,i] = 'load'
+            break
 
         while True:
             replacement = input('\nWhat should ' + alphabet[i] + ' be replaced with, after each iteration?\n')
@@ -92,9 +106,14 @@ def selfDefinedSystem():
         option = displayMenu(letteroptions, 'What should ' + alphabet[i] + ' represent? ')
         if option == 1: # A length
             settings.lettermapping[2,i] = 'l' # placeholder
+            settings.lettermapping[3,i] = 'length'
         if option == 2: # An angle
             settings.lettermapping[2,i] = np.pi * inputFraction('\nWrite what value you want x to be, for an angle x*Pi. Positive values denote positive rotation. ')
-    
+            settings.lettermapping[3,i] = 'angle'
+        if option == 3: # do nothing
+            settings.lettermapping[2,i] = 'nothing'
+            settings.lettermapping[3,i] = 'nothing'
+
     while True:
         settings.name = input('\nWhat do you want to name your system?\n')
         if np.any(settings.name == settings.SystemsList):
@@ -102,3 +121,42 @@ def selfDefinedSystem():
         else:
             break
     return
+
+def complexTurtlePlot(turtleCommands):
+    # Input: turtleCommands: A row vector consisting of alternating length and angle specifications
+    
+    saved_positions = []
+    saved_angles = []
+
+    x = np.array([[0,0]])
+    d = np.array([1,0])
+
+    plt.subplots(1, 1, figsize = (15,15))
+
+    for i in range(np.size(turtleCommands)):
+        if settings.turtleAction[i] == 'length':
+            x = np.vstack((x, x[-1] + turtleCommands[i] * d))
+        elif turtleCommands[i] == 'save':
+            # save position
+            saved_positions.append(x[-1])
+            saved_angles.append(d)
+        elif turtleCommands[i] == 'load':
+            # load position
+            plt.plot(x[:,0],x[:,1], linewidth = 0.5)
+            x = np.array([saved_positions[-1]])
+            d = saved_angles[-1]
+            saved_angles = saved_angles[:-1]
+            saved_positions = saved_positions[:-1]
+        elif turtleCommands[i] == 'nothing':
+            pass
+        else:
+            darray = np.array([[np.cos(turtleCommands[i]), -np.sin(turtleCommands[i])], [np.sin(turtleCommands[i]), np.cos(turtleCommands[i])]])
+            d = darray.dot(d)
+
+    plt.plot(x[:,0],x[:,1], linewidth = 0.5)
+    plt.axis('equal')
+    if settings.System == 'User defined':
+        plt.title(settings.name + ' system with ' + str(settings.N) + ' iterations')
+    else:
+        plt.title(settings.System + ' system with ' + str(settings.N) + ' iterations')
+    plt.show()

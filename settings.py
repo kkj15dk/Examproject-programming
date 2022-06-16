@@ -17,6 +17,7 @@ def init():
     global selfdefined_start
     global name
     global iteration_scaling
+    global turtleAction
     SystemsList = np.array(["Koch curve","Sierpinski triangle"])
     System = ''
     N = 0
@@ -24,5 +25,6 @@ def init():
     selfdefined_start = ''
     name =''
     iteration_scaling = 1
+    turtleAction = np.zeros([], dtype = object)
     
 
