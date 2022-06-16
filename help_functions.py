@@ -59,7 +59,7 @@ def selfDefinedSystem():
     letteroptions = np.array(['A length', 'An angle'])
     while True:
         alphabet = input('\nInput the alphabet of the system(without spaces), make sure you have no duplicates, and only uppercase letters: ')
-        if alphabet.isupper() != True:
+        if alphabet.isupper() != True or alphabet.isalpha() != True:
             print('\nOnly uppercase letters are allowed')
         else:
             break
