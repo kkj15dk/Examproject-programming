@@ -120,7 +120,6 @@ settings.selfdefined_start = 'X'
 settings.iteration_scaling = 1/2
 settings.lettermapping = np.array([['X', 'F', 'L', 'R', '[', ']'],['FL[[X]RX]RF[RFX]LX','FF','L', 'R', '[', ']'],['nothing', 'l', 25/180*np.pi, -25/180*np.pi, 'save', 'load'],['other','length','other','other', 'save', 'load']])
 command = settings.lettermapping[2]['F' == settings.lettermapping[0]]
-print(command)
 String = LindIter(settings.System,settings.N)
 commands = turtleGraph(String)
 current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
