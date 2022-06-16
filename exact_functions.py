@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import settings
 from datastorage import *
+from help_functions import *
 
 # # Test
 # settings.init()
@@ -45,7 +46,7 @@ def turtleGraph(LindenMayerstring):
     # Output: turtleCommands: A row vector containing the turtle graphics commands consisting of alternating length and angle specifications
     
     # setup a vector of zeroes
-    turtleCommands = np.zeros(len(LindenMayerstring))
+    turtleCommands = np.zeros(len(LindenMayerstring), dtype = object)
 
     if settings.System == 'Koch':
         # the length for Koch system
@@ -73,29 +74,59 @@ def turtleGraph(LindenMayerstring):
         # load the user defined system
         l = settings.iteration_scaling**settings.N
 
-        for i in range(len(LindenMayerstring)):
-            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
-            if command == 'l':
-                turtleCommands[i] = l
-            else:
-                turtleCommands[i] = command
-    else:
-        # load the previously defined system
-        l = settings.iteration_scaling**settings.N
+        settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
 
         for i in range(len(LindenMayerstring)):
             command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
             if command == 'l':
-                turtleCommands[i] = l
+                turtleCommands[i] = l # i have to have this her, i cannot move it to turtlePlot because of the project specifications
+                settings.turtleAction[i] = 'length'
+            elif command == 'save':
+                turtleCommands[i] = 'save'
+                settings.turtleAction[i] = 'save'
+            elif command == 'load':
+                turtleCommands[i] = 'load'
+                settings.turtleAction[i] = 'load'
+            elif  command == 'nothing':
+                turtleCommands[i] = 'nothing'
+                settings.turtleAction[i] = 'nothing'
             else:
-                turtleCommands[i] = command
+                turtleCommands[i] = float(command[0])
+                settings.turtleAction[i] = 'other'
+
+    else:
+        # load the user defined system
+        l = settings.iteration_scaling**settings.N
+
+        settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
+
+        for i in range(len(LindenMayerstring)):
+            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
+            if command == 'l':
+                turtleCommands[i] = l # i have to have this her, i cannot move it to turtlePlot because of the project specifications
+                settings.turtleAction[i] = 'length'
+            elif command == 'save':
+                turtleCommands[i] = 'save'
+                settings.turtleAction[i] = 'save'
+            elif command == 'load':
+                turtleCommands[i] = 'load'
+                settings.turtleAction[i] = 'load'
+            elif  command == 'nothing':
+                turtleCommands[i] = 'nothing'
+                settings.turtleAction[i] = 'nothing'
+            else:
+                turtleCommands[i] = float(command[0])
+                settings.turtleAction[i] = 'other'
 
     return turtleCommands
 
 def turtlePlot(turtleCommands):
-    # Insert your code here
     # Input: turtleCommands: A row vector consisting of alternating length and angle specifications
     
+    # We need to rerout to another turtleplottingfunction if we use a complex L-system
+    if settings.System != 'Sierpinski' and settings.System != 'Koch':
+        complexTurtlePlot(turtleCommands)
+        return
     
     x = np.zeros((int((len(turtleCommands) + 3) / 2), 2))
     d = np.zeros((int((len(turtleCommands) + 1) / 2), 2))
@@ -119,15 +150,3 @@ def turtlePlot(turtleCommands):
     else:
         plt.title(settings.System + ' system with ' + str(settings.N) + ' iterations')
     plt.show()
-
-# # Test
-# settings.System = 'User defined'
-# # settings.System = 'Sierpinski'
-# settings.N = 2
-# settings.selfdefined_start = 'S'
-# settings.lettermapping = np.array([['S','L','R'],['SLSRSLS','L','R'],[(1/3)**settings.N,1/3*np.pi,-2/3*np.pi]])
-# String = LindIter(settings.System,settings.N)
-# print(String)
-# commands = turtleGraph(String)
-# print(commands)
-# turtlePlot(commands)
