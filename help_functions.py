@@ -3,6 +3,7 @@ import numpy as np
 import settings
 
 def inputInt(prompt):
+    # Ask the user to input an integer
     while True:
         try:
             num = int(input(prompt))
@@ -12,6 +13,7 @@ def inputInt(prompt):
     return num
 
 def inputFloat(prompt):
+    # Ask the user to input a float
     while True:
         try:
             num = float(input(prompt))
@@ -21,6 +23,7 @@ def inputFloat(prompt):
     return num
 
 def inputFraction(prompt):
+    # Ask the user to input an fraction or float
     while True:
         try:
             userinput = input(prompt)
