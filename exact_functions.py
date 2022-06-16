@@ -54,9 +54,15 @@ def turtleGraph(LindenMayerstring):
             if LindenMayerstring[i] == 'R':
                 turtleCommands[i] = - 1/3 * np.pi
     elif settings.System == 'User defined':
-        
+        # load the user defined system
+        l = settings.iteration_scaling**settings.N
+
         for i in range(len(LindenMayerstring)):
-            turtleCommands[i] = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
+            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
+            if command == 'l':
+                turtleCommands[i] = l
+            else:
+                turtleCommands[i] = command
 
     return turtleCommands
 

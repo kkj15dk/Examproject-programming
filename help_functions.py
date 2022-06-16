@@ -53,18 +53,18 @@ def displayMenu(options, message):
 
 
 def selfDefinedSystem():
-    # User input to 
+    # User input to define their own system. Changes settings file
     # Input: user input for the self defined L-system
-    # Output: Name of the system
+    # Output:
     letteroptions = np.array(['A length', 'An angle'])
     while True:
-        alphabet = input('\nInput the alphabet of the system, make sure you have no duplicates(without spaces), and only uppercase letters: ')
+        alphabet = input('\nInput the alphabet of the system(without spaces), make sure you have no duplicates, and only uppercase letters: ')
         if alphabet.isupper() != True:
             print('\nOnly uppercase letters are allowed')
         else:
             break
     
-    iteration_scaling = inputFraction('\nInput what value you want the length of segments in the system to be scaled by after each iteration: ')
+    settings.iteration_scaling = inputFraction('\nInput what value you want the length of segments in the system to be scaled by after each iteration: ')
     settings.lettermapping = np.zeros((3,len(alphabet)), dtype = object) # for astoring the alphabet(0) along with replacement rules(1) and and turtle grahping rules(2)
     
     while True:
@@ -88,7 +88,7 @@ def selfDefinedSystem():
         
         option = displayMenu(letteroptions, 'What should ' + alphabet[i] + ' represent? ')
         if option == 1: # A length
-            settings.lettermapping[2,i] = (iteration_scaling)**settings.N 
+            settings.lettermapping[2,i] = 'l' # placeholder
         if option == 2: # An angle
             settings.lettermapping[2,i] = np.pi * inputFraction('\nWrite what value you want x to be, for an angle x*Pi. Positive values denote positive rotation. ')
     

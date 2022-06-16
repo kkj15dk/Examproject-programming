@@ -16,10 +16,13 @@ def init():
     global lettermapping
     global selfdefined_start
     global name
+    global iteration_scaling
     SystemsList = np.array(["Koch","Sierpinski", "User defined"])
     System = ''
     N = 0
     lettermapping = np.array([], dtype = object)
     selfdefined_start = ''
     name =''
+    iteration_scaling = 1
+    
 

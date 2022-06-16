@@ -10,7 +10,7 @@ settings.init()
 
 # Define menu items
 # Define used variables
-menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Quit"])
+menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Quit"])
 LindenSystems = np.array(["Koch curve","Sierpinski triangle","User defined system"])
 
 
@@ -53,10 +53,18 @@ while True:
             LindenmayerString = LindIter(settings.System,settings.N)
             turtleCommands = turtleGraph(LindenmayerString)
             turtlePlot(turtleCommands)
-            
 # ------------------------------------------------------------------
-# 3. Quit
+# 3. Change number of iterations
     elif choice == 3:
+# Is there choosen system and iteration?
+        if settings.System == "":
+# Display error message
+            print("\nError: No system and iteration chosen, please choose those")
+        else:
+            settings.N = inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
+# ------------------------------------------------------------------
+# 4. Quit
+    elif choice == 4:
 # End
         break
 
