@@ -1,17 +1,24 @@
 import numpy as np
 import settings
+import pickle
 from exact_functions import *
 from help_functions import *
+from datastorage import *
 
 # set global variable system and N
 settings.init()
-
 # Define menu items
 # Define used variables
-menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Quit"])
-LindenSystems = np.array(["Koch curve","Sierpinski triangle","User defined system"])
+menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Save current L-system", "Quit"])
+LindenSystems = np.array(["Koch curve","Sierpinski triangle"])
 
-
+# load all systems
+loaded_systems = loadall('systems.dat')
+for sys in loaded_systems:
+    LindenSystems = np.append(LindenSystems, sys.name)
+    settings.SystemsList = np.append(settings.SystemsList, sys.name)
+LindenSystems = np.append(LindenSystems, "User defined")
+settings.SystemsList = np.append(settings.SystemsList, "User defined")
 
 # Start
 while True:
@@ -43,7 +50,7 @@ while True:
 # ------------------------------------------------------------------
 # 2. Generate plot
     elif choice == 2:
-# Is there choosen system and iteration?
+# Is there chosen system and iteration?
         if settings.System == "":
 # Display error message
             print("\nError: No system and iteration chosen, please choose those")
@@ -54,15 +61,27 @@ while True:
 # ------------------------------------------------------------------
 # 3. Change number of iterations
     elif choice == 3:
-# Is there choosen system and iteration?
+# Is there chosen system and iteration?
         if settings.System == "":
 # Display error message
             print("\nError: No system and iteration chosen, please choose those")
         else:
             settings.N = inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
 # ------------------------------------------------------------------
-# 4. Quit
+# 4. Save current system
     elif choice == 4:
+# Is there chosen system and iteration?
+        if settings.System == "":
+# Display error message
+            print("\nError: No system and iteration chosen, please choose those")
+        else:
+            systemsfile = open('systems.dat', 'wb')
+            current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+            pickle.dump(current_system, systemsfile) # dump it to pickle
+            systemsfile.close
+# ------------------------------------------------------------------
+# 5. Quit
+    elif choice == 5:
 # End
         break
 
