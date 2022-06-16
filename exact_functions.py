@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# The given system will be declared globally so it is easier to create new systems
-System = 'Koch'
-N = 6
+# # The given system will be declared globally so it is easier to create new systems
+# System = 'Sierpinski'
+# N = 8
 
 def LindIter(System,N):
     if System == "Koch":
@@ -73,10 +73,12 @@ def turtlePlot(turtleCommands):
     plt.subplots(1, 1, figsize = (15,15))
     plt.plot(x[:,0],x[:,1], linewidth = 0.5)
     plt.axis('equal')
+    plt.title(System + ' system with ' + str(N) + ' iterations')
     plt.show()
 
-String = LindIter(System,N)
-print(String)
-commands = turtleGraph(String)
-print(commands)
-turtlePlot(commands)
+# # Test
+# String = LindIter(System,N)
+# print(String)
+# commands = turtleGraph(String)
+# print(commands)
+# turtlePlot(commands)
