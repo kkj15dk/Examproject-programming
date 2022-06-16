@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import settings
+from datastorage import *
 
 # # Test
 # settings.init()
@@ -10,18 +11,33 @@ def LindIter(System,N):
         LindenmayerString = 'S'
         for i in range(N):
             LindenmayerString = LindenmayerString.replace("S","SLSRSLS")
-    if System == "Sierpinski":
+    elif System == "Sierpinski":
         LindenmayerString = 'A'
         for i in range(N):
             LindenmayerString = LindenmayerString.replace("A","bRARb")
             LindenmayerString = LindenmayerString.replace("B","ALBLA")
             LindenmayerString = LindenmayerString.replace("b","B")
-    if System == "User defined":
+    elif System == "User defined":
         LindenmayerString = settings.selfdefined_start
         for i in range(N):
             for i in range(np.size(settings.lettermapping, axis = 1)):
                 LindenmayerString = LindenmayerString.replace(settings.lettermapping[0,i], settings.lettermapping[1,i].lower())
             LindenmayerString = LindenmayerString.upper()
+    else: # To be able to load user defined L-systems from previous instances of the application. For instance, this is where 'Dragon' comes from
+        loaded_systems = loadall('systems.dat')
+        for sys in loaded_systems:
+            if System == sys.name:
+                settings.name = sys.name
+                settings.lettermapping = sys.lettermap
+                settings.selfdefined_start = sys.start
+                settings.iteration_scaling = sys.scaling
+                LindenmayerString = settings.selfdefined_start
+                for i in range(N):
+                    for i in range(np.size(settings.lettermapping, axis = 1)):
+                        LindenmayerString = LindenmayerString.replace(settings.lettermapping[0,i], settings.lettermapping[1,i].lower())
+                    LindenmayerString = LindenmayerString.upper()
+                print(System + ' was loaded')
+                break
     return LindenmayerString
 
 def turtleGraph(LindenMayerstring):
@@ -55,6 +71,16 @@ def turtleGraph(LindenMayerstring):
                 turtleCommands[i] = - 1/3 * np.pi
     elif settings.System == 'User defined':
         # load the user defined system
+        l = settings.iteration_scaling**settings.N
+
+        for i in range(len(LindenMayerstring)):
+            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
+            if command == 'l':
+                turtleCommands[i] = l
+            else:
+                turtleCommands[i] = command
+    else:
+        # load the previously defined system
         l = settings.iteration_scaling**settings.N
 
         for i in range(len(LindenMayerstring)):
