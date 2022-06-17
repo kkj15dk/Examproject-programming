@@ -11,7 +11,7 @@ settings.init()
 loaded_systems = list(loadall('systems.dat'))
 # Define menu items
 # Define used variables
-menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Save current L-system", "Quit"])
+menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Save current L-system", "Factory reset of loaded L-systems", "Quit"])
 
 # Start
 while True:
@@ -102,53 +102,13 @@ while True:
                     pickle.dump(s, systemsfile)
                 pickle.dump(current_system, systemsfile) # dump new system to pickle
 
+
 # ------------------------------------------------------------------
-# 5. Quit
+# 5. Factory reset of loaded L-systems
     elif choice == 5:
+        factoryReset()
+# ------------------------------------------------------------------
+# 6. Quit
+    elif choice == 6:
 # End
         break
-
-
-# For loading predefined systems into systems.dat using pickle, instead of loading each manually using the interface
-predefined_systems = []
-
-# Fractal tree
-settings.System = 'User defined'
-settings.N = 2
-settings.name = 'Fractal tree'
-settings.selfdefined_start = 'X'
-settings.iteration_scaling = 1/2
-settings.lettermapping = np.array([['X', 'F', 'L', 'R', '[', ']'],['FL[[X]RX]RF[RFX]LX','FF','L', 'R', '[', ']'],['nothing', 'l', 25/180*np.pi, -25/180*np.pi, 'save', 'load'],['other','length','other','other', 'save', 'load']])
-command = settings.lettermapping[2]['F' == settings.lettermapping[0]]
-String = LindIter(settings.System,settings.N)
-commands = turtleGraph(String)
-current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
-predefined_systems.append(current_system)
-
-# Dragon curve
-settings.System = 'User defined'
-settings.N = 2
-settings.name = 'Dragon curve'
-settings.selfdefined_start = 'F'
-settings.iteration_scaling = 1/2
-settings.lettermapping = np.array([['F', 'G', 'L','R'],['FLG','FRG','L', 'R'],['l', 'l', 1/2*np.pi, -1/2*np.pi],['length','length','other','other']])
-String = LindIter(settings.System,settings.N)
-commands = turtleGraph(String)
-current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
-predefined_systems.append(current_system)
-
-# Right angled Koch curve
-settings.System = 'User defined'
-settings.N = 2
-settings.name = 'Right angled Koch curve'
-settings.selfdefined_start = 'F'
-settings.iteration_scaling = 1/3
-settings.lettermapping = np.array([['F','L','R'],['FLFRFRFLF','L', 'R'],['l', 1/2*np.pi, -1/2*np.pi],['length','other','other']])
-String = LindIter(settings.System,settings.N)
-commands = turtleGraph(String)
-current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
-predefined_systems.append(current_system)
-
-with open('systems.dat', 'wb') as systemsfile:
-                for s in predefined_systems:
-                    pickle.dump(s, systemsfile)
