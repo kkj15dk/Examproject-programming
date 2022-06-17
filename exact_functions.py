@@ -8,6 +8,12 @@ from help_functions import *
 # settings.init()
 
 def LindIter(System,N):
+    # Input: string of the current system and integer of number of iteraions
+    # Output: the lindenmayer string after that number of iterations in the L-system
+    
+    # for following the code
+    print('\nStarted making the Lindenmayer string')
+
     if System == "Koch":
         LindenmayerString = 'S'
         for i in range(N):
@@ -37,14 +43,20 @@ def LindIter(System,N):
                     for i in range(np.size(settings.lettermapping, axis = 1)):
                         LindenmayerString = LindenmayerString.replace(settings.lettermapping[0,i], settings.lettermapping[1,i].lower())
                     LindenmayerString = LindenmayerString.upper()
-                print(System + ' was loaded')
                 break
+    
+    # for following the code
+    print('Done making the Lindemayer string')
+    
     return LindenmayerString
 
 def turtleGraph(LindenMayerstring):
     # Input: LindenmayerString: A string of symbols representing the state of the system after the Lindemayer iteration.
     # Output: turtleCommands: A row vector containing the turtle graphics commands consisting of alternating length and angle specifications
     
+    # for following the code
+    print('\nStarted making the turtle commands')
+
     # setup a vector of zeroes
     turtleCommands = np.zeros(len(LindenMayerstring), dtype = object)
 
@@ -72,57 +84,23 @@ def turtleGraph(LindenMayerstring):
                 turtleCommands[i] = - 1/3 * np.pi
     elif settings.System == 'User defined':
         # load the user defined system
-        l = settings.iteration_scaling**settings.N
-
-        settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
-
-        for i in range(len(LindenMayerstring)):
-            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
-            if command == 'l':
-                turtleCommands[i] = l # i have to have this her, i cannot move it to turtlePlot because of the project specifications
-                settings.turtleAction[i] = 'length'
-            elif command == 'save':
-                turtleCommands[i] = 'save'
-                settings.turtleAction[i] = 'save'
-            elif command == 'load':
-                turtleCommands[i] = 'load'
-                settings.turtleAction[i] = 'load'
-            elif  command == 'nothing':
-                turtleCommands[i] = 'nothing'
-                settings.turtleAction[i] = 'nothing'
-            else:
-                turtleCommands[i] = float(command[0])
-                settings.turtleAction[i] = 'other'
+        turtleCommands = loadUserdefined(turtleCommands, LindenMayerstring)
 
     else:
-        # load the user defined system
-        l = settings.iteration_scaling**settings.N
+        # Assume there is a system loaded in settings, make turtlecommands based on this
+        turtleCommands = loadUserdefined(turtleCommands, LindenMayerstring)
 
-        settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
-
-        for i in range(len(LindenMayerstring)):
-            command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
-            if command == 'l':
-                turtleCommands[i] = l # i have to have this her, i cannot move it to turtlePlot because of the project specifications
-                settings.turtleAction[i] = 'length'
-            elif command == 'save':
-                turtleCommands[i] = 'save'
-                settings.turtleAction[i] = 'save'
-            elif command == 'load':
-                turtleCommands[i] = 'load'
-                settings.turtleAction[i] = 'load'
-            elif  command == 'nothing':
-                turtleCommands[i] = 'nothing'
-                settings.turtleAction[i] = 'nothing'
-            else:
-                turtleCommands[i] = float(command[0])
-                settings.turtleAction[i] = 'other'
+    # for following the code
+    print('Done making the turtle commands')
 
     return turtleCommands
 
 def turtlePlot(turtleCommands):
     # Input: turtleCommands: A row vector consisting of alternating length and angle specifications
     
+    # for following the code
+    print('\nStarted drawing the fractal')
+
     # We need to rerout to another turtleplottingfunction if we use a complex L-system
     if settings.System != 'Sierpinski' and settings.System != 'Koch':
         complexTurtlePlot(turtleCommands)
@@ -149,36 +127,27 @@ def turtlePlot(turtleCommands):
         plt.title(settings.name + ' system with ' + str(settings.N) + ' iterations')
     else:
         plt.title(settings.System + ' system with ' + str(settings.N) + ' iterations')
+    
+    # for following the code
+    print('Done drawing the fractal')
+
     plt.show()
 
 
 # This is not a function from the project description, and is situated in this document, simply because all teh needed imports are here
 def factoryReset():
     # For loading predefined systems into systems.dat using pickle, instead of loading each manually using the interface
+    
+    # Create empty array
     predefined_systems = []
 
-    # Fractal tree
+    # Koch Snowflake
     settings.System = 'User defined'
     settings.N = 2
-    settings.name = 'Fractal tree'
-    settings.selfdefined_start = 'X'
-    settings.iteration_scaling = 1/2
-    settings.lettermapping = np.array([['X', 'F', 'L', 'R', '[', ']'],['FL[[X]RX]RF[RFX]LX','FF','L', 'R', '[', ']'],['nothing', 'l', 25/180*np.pi, -25/180*np.pi, 'save', 'load'],['other','length','other','other', 'save', 'load']])
-    command = settings.lettermapping[2]['F' == settings.lettermapping[0]]
-    String = LindIter(settings.System,settings.N)
-    commands = turtleGraph(String)
-    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
-    predefined_systems.append(current_system)
-
-    # Dragon curve
-    settings.System = 'User defined'
-    settings.N = 2
-    settings.name = 'Dragon curve'
-    settings.selfdefined_start = 'F'
-    settings.iteration_scaling = 1/2
-    settings.lettermapping = np.array([['F', 'G', 'L','R'],['FLG','FRG','L', 'R'],['l', 'l', 1/2*np.pi, -1/2*np.pi],['length','length','other','other']])
-    String = LindIter(settings.System,settings.N)
-    commands = turtleGraph(String)
+    settings.name = 'Koch snowflake'
+    settings.selfdefined_start = 'FLLFLLF'
+    settings.iteration_scaling = 1/3
+    settings.lettermapping = np.array([['F','L','R'],['FRFLLFRF','L', 'R'],['l', 1/3*np.pi, -1/3*np.pi],['length','other','other']])
     current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
     predefined_systems.append(current_system)
 
@@ -189,8 +158,46 @@ def factoryReset():
     settings.selfdefined_start = 'F'
     settings.iteration_scaling = 1/3
     settings.lettermapping = np.array([['F','L','R'],['FLFRFRFLF','L', 'R'],['l', 1/2*np.pi, -1/2*np.pi],['length','other','other']])
-    String = LindIter(settings.System,settings.N)
-    commands = turtleGraph(String)
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Dragon curve
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Dragon curve'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['F', 'G', 'L','R'],['FLG','FRG','L', 'R'],['l', 'l', 1/2*np.pi, -1/2*np.pi],['length','length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Levy curve
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Levy curve'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['F','L','R'],['LFRRFL','L', 'R'],['l', 1/4*np.pi, -1/4*np.pi],['length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Fractal tree
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Fractal tree'
+    settings.selfdefined_start = 'X'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['X', 'F', 'L', 'R', '[', ']'],['FL[[X]RX]RF[RFX]LX','FF','L', 'R', '[', ']'],['nothing', 'l', 25/180*np.pi, -25/180*np.pi, 'save', 'load'],['other','length','other','other', 'save', 'load']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Fractal bush
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Fractal bush'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1
+    settings.lettermapping = np.array([[ 'F', 'L', 'R', '[', ']'],['FFl[LFRFRF]R[RFLFLF]','L', 'R', '[', ']'],['l', 45/360*np.pi, -45/360*np.pi, 'save', 'load'],['length','other','other', 'save', 'load']])
     current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
     predefined_systems.append(current_system)
 

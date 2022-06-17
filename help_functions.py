@@ -13,6 +13,16 @@ def inputInt(prompt):
             pass
     return num
 
+def inputStr(prompt):
+    # Ask the user to input an integer
+    while True:
+        try:
+            num = str(input(prompt))
+            break
+        except ValueError:
+            pass
+    return num
+
 def inputFloat(prompt):
     # Ask the user to input a float
     while True:
@@ -55,6 +65,23 @@ def displayMenu(options, message):
     
     return choice
 
+def displayMenuStr(options, message):
+    # makes a menu of items that can be selected for
+    # Input: the options of a menu, as well as the message to be displayed afterwards.
+    # Output: the menu, the choice
+
+    print('\n') # for prettier format
+
+    for i in range(len(options)):
+        print("{:d}. {:s}".format(i+1, options[i]))
+    
+    choice = 0
+    
+    while not(np.any(choice == np.arange(len(options))+1)):
+        choice = inputInt(message)
+    
+    return choice
+
 
 def selfDefinedSystem():
     # User input to define their own system. Changes settings file
@@ -71,7 +98,7 @@ def selfDefinedSystem():
             break
     
     settings.iteration_scaling = inputFraction('\nInput what value you want the length of segments in the system to be scaled by after each iteration: ')
-    settings.lettermapping = np.zeros((4,len(alphabet)), dtype = object) # for astoring the alphabet(0) along with replacement rules(1), turtle grahping rules(2), and turtle grahping action(3) (length or angle)
+    settings.lettermapping = np.zeros((4,len(alphabet)), dtype = object) # for storing the alphabet(0) along with replacement rules(1), turtle grahping rules(2), and turtle grahping action(3) (length or angle)
     
     while True:
         settings.selfdefined_start = input('\nInput the startcondition of the system: ')
@@ -88,15 +115,16 @@ def selfDefinedSystem():
             settings.lettermapping[1,i] = '['
             settings.lettermapping[2,i] = 'save'
             settings.lettermapping[3,i] = 'save'
-            break
+            continue
         elif alphabet[i] == ']':
             settings.lettermapping[1,i] = ']'
             settings.lettermapping[2,i] = 'load'
             settings.lettermapping[3,i] = 'load'
-            break
+            continue
+            
 
         while True:
-            replacement = input('\nWhat should ' + alphabet[i] + ' be replaced with, after each iteration?\n')
+            replacement = inputStr('\nWhat should ' + alphabet[i] + ' be replaced with, after each iteration?\n')
             if all(letters in alphabet for letters in replacement):
                 settings.lettermapping[1,i] = replacement
                 break
@@ -107,10 +135,10 @@ def selfDefinedSystem():
         if option == 1: # A length
             settings.lettermapping[2,i] = 'l' # placeholder
             settings.lettermapping[3,i] = 'length'
-        if option == 2: # An angle
+        elif option == 2: # An angle
             settings.lettermapping[2,i] = np.pi * inputFraction('\nWrite what value you want x to be, for an angle x*Pi. Positive values denote positive rotation. ')
             settings.lettermapping[3,i] = 'angle'
-        if option == 3: # do nothing
+        elif option == 3: # do nothing
             settings.lettermapping[2,i] = 'nothing'
             settings.lettermapping[3,i] = 'nothing'
 
@@ -160,3 +188,28 @@ def complexTurtlePlot(turtleCommands):
     else:
         plt.title(settings.System + ' system with ' + str(settings.N) + ' iterations')
     plt.show()
+
+def loadUserdefined(turtleCommands, LindenMayerstring):
+    # load the user defined system
+    l = settings.iteration_scaling**settings.N
+
+    settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
+
+    for i in range(len(LindenMayerstring)):
+        command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
+        if command == 'l':
+            turtleCommands[i] = l # i have to have this here, i cannot move it to turtlePlot because of the project specifications
+            settings.turtleAction[i] = 'length'
+        elif command == 'save':
+            turtleCommands[i] = 'save'
+            settings.turtleAction[i] = 'save'
+        elif command == 'load':
+            turtleCommands[i] = 'load'
+            settings.turtleAction[i] = 'load'
+        elif  command == 'nothing':
+            turtleCommands[i] = 'nothing'
+            settings.turtleAction[i] = 'nothing'
+        else:
+            turtleCommands[i] = float(command[0])
+            settings.turtleAction[i] = 'other'
+    return turtleCommands
