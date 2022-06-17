@@ -35,17 +35,24 @@ while True:
             settings.System = "Koch"
         if settings.System == "Sierpinski triangle":
             settings.System = "Sierpinski"
+        
+        # To ask the user of the amount of iterations, and to tell them if they choose a lot of iterations if they're certain they want to continue
         while True:
             settings.N = inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
             if settings.N < 0:
                 print("Iterations cannot be less than 0")
             elif settings.N >13:
-                print("\nLarge amount of iterations, will have a long computing time")
-                svar = input('Do you still wish to continue (y/n): ')
-                if svar.lower() == "y":
-                    break
-                else:
+                while True: 
+                    print("\nLarge amount of iterations, will have a long computing time")   
+                    svar = input('Do you still wish to continue (y/n): ')
+                    if svar.lower() == "y" or svar.lower() == "n":
+                        break
+                    else:
+                        pass
+                if svar.lower == "n":
                     pass
+                else:
+                    break
             else:
                 break
         if settings.System == 'User defined':
@@ -79,7 +86,7 @@ while True:
 # Display error message
             print("\nError: No system and iteration chosen, please choose those")
         elif settings.System == 'Sierpinski' or settings.System == 'Koch':
-            print('\nSierpinski and Koch are already defined, these cannot saved')
+            print('\nSierpinski and Koch are already defined, these cannot be saved')
         else:
             while True:
                 answer = input("Do you wish to rename the current L-system from " + settings.name + ' (y/n)? ')
