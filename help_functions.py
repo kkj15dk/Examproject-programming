@@ -94,6 +94,8 @@ def selfDefinedSystem():
     
         if np.all([char in allowed_chars for char in alphabet]) != True:
             print('\nOnly uppercase letters and [ or ] are allowed')
+        elif np.any([alphabet[i] in alphabet[:i] + alphabet[i+1:] for i in range(len(alphabet))]):
+            print('\nDuplicates are not allowed')
         else:
             break
     
