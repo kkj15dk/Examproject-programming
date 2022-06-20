@@ -4,9 +4,6 @@ import settings
 from datastorage import *
 from help_functions import *
 
-# # Test
-# settings.init()
-
 def LindIter(System,N):
     # Input: string of the current system and integer of number of iteraions
     # Output: the lindenmayer string after that number of iterations in the L-system
@@ -32,7 +29,7 @@ def LindIter(System,N):
             for i in range(np.size(settings.lettermapping, axis = 1)):
                 LindenmayerString = LindenmayerString.replace(settings.lettermapping[0,i], settings.lettermapping[1,i].lower())
             LindenmayerString = LindenmayerString.upper()
-    else: # To be able to load user defined L-systems from previous instances of the application. For instance, this is where 'Dragon' comes from
+    else: # To be able to load user defined L-systems from previous instances of the application. For instance, this is where 'Dragon curve' comes from
         loaded_systems = loadall('systems.dat')
         for sys in loaded_systems:
             if System == sys.name:
@@ -53,9 +50,13 @@ def LindIter(System,N):
     return LindenmayerString
 
 def turtleGraph(LindenMayerstring):
-    # Input: LindenmayerString: A string of symbols representing the state of the system after the Lindemayer iteration.
-    # Output: turtleCommands: A row vector containing the turtle graphics commands consisting of alternating length and angle specifications
+    """
+    Based on the lindenmayerstring, construct turtlecommands for the turtle
+
+    Input: LindenmayerString: A string of symbols representing the state of the system after the Lindemayer iteration.
     
+    Output: turtleCommands: A row vector containing the turtle graphics commands consisting of alternating length and angle specifications
+    """    
     # for following the code
     print('\nStarted making the turtle commands')
 
@@ -98,6 +99,8 @@ def turtleGraph(LindenMayerstring):
 
 def turtlePlot(turtleCommands):
     """
+    Based on the turtlecommands, plot the fractal.
+    
     Input: turtleCommands: A row vector consisting of alternating length and angle specifications
     
     Output: screen output of the fractal plot
@@ -142,9 +145,11 @@ def turtlePlot(turtleCommands):
     plt.show()
 
 
-# This is not a function from the project description, and is situated in this document, simply because all teh needed imports are here
+# NB: This is not a function from the project description, and is situated in this document, simply because all teh needed imports are here
 def factoryReset():
-    # For loading predefined systems into systems.dat using pickle, instead of loading each manually using the interface
+    """
+    For loading predefined systems into systems.dat using pickle, instead of loading each manually using the interface.
+    """
     
     # Create empty array
     predefined_systems = []

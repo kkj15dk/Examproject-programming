@@ -22,8 +22,8 @@ while True:
 # 1. Load data
     if choice == 1:
         settings.SystemsList = np.array(["Koch curve","Sierpinski triangle"])
-        # load all systems, has to be reloaded, because loadall is a generator
-        loaded_systems = list(loadall('systems.dat'))
+        
+        # load all systems, update the settings list and add user defined option
         for sys in loaded_systems:
             settings.SystemsList = np.append(settings.SystemsList, sys.name)
         settings.SystemsList = np.append(settings.SystemsList, "User defined")
@@ -33,7 +33,7 @@ while True:
         # Have to rename the systems, since this is the input they need in LindIter()
         if settings.System == "Koch curve":
             settings.System = "Koch"
-        if settings.System == "Sierpinski triangle":
+        elif settings.System == "Sierpinski triangle":
             settings.System = "Sierpinski"
         
         # To ask the user of the amount of iterations, and to tell them if they choose a lot of iterations if they're certain they want to continue
@@ -55,6 +55,7 @@ while True:
                     break
             else:
                 break
+
         if settings.System == 'User defined':
             selfDefinedSystem() # asks for user input for the self defined system. Saves input globally.
 

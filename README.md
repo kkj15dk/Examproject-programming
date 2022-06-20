@@ -16,8 +16,9 @@ The system can then be saved for later!!!
 # Predefined systems
 
 There are som predefined systems which have been loaded at an earlier point.
-Some cannot handle as many iterations, for instance fractal tree, which shouldnt be run at more than 6 iterations unless you have a powerhouse of a computer, but looks really cool :D
+Some cannot handle as many iterations, for instance fractal tree, which shouldnt be run at more than 6 iterations unless you have a powerhouse of a computer, but looks really cool (rainbow colors are on purpose) :D
 
 # NB
 
-We know some project files have become rather lengthy, but this is only because of the implementation of predefiend and user defined systems.
+There are some global variables defined in settings.py. These are used to define user defined systems, and are used to 
+Also, we know some project files have become rather lengthy, but this is only because of the implementation of predefiend and user defined systems.

@@ -2,7 +2,7 @@
 """
 Created on Thu Jun 16 10:27:51 2022
 
-@author: Sofus Boisen
+@author: Kasper Krunderup Jakobsen and Sofus Boisen
 """
 
 import numpy as np
@@ -10,6 +10,9 @@ import numpy as np
 # global variables for use in multiple files
 
 def init():
+    """
+    To run on startup of main to set global variables
+    """
     global SystemsList
     global System
     global N

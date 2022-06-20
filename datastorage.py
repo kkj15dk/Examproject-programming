@@ -1,7 +1,16 @@
 import pickle
 
 class system():
-    # A class for saving the cyrrent system using pickle
+    """ 
+    A class for saving the cyrrent system using pickle.
+
+    The class  the following:
+
+    name: string of the name of the system
+    lettermap: numpy array object with alphabet of the L-system, along with replacement rules turtleCommands and turtleActions
+    start: the start condition of the system
+    scaling: what the lengths should be scaled by after each iteration
+    """
     def __init__(self, name, lettermap, start, scaling):
         self.name = name
         self.lettermap = lettermap
@@ -9,8 +18,11 @@ class system():
         self.scaling = scaling
 
 def loadall(filename):
-    # A function for loading all systems saved in the systems.dat.
-    # A generator
+    """
+    A function for loading all systems saved in the systems.dat.
+    
+    It is a generator, going through all dumps in the file systems.dat
+    """
     with open(filename, "rb") as f:
         while True:
             try:
