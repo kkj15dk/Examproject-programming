@@ -5,8 +5,13 @@ from datastorage import *
 from help_functions import *
 
 def LindIter(System,N):
-    # Input: string of the current system and integer of number of iteraions
-    # Output: the lindenmayer string after that number of iterations in the L-system
+    """
+    Based on a given system and number of iterations, make a lindenmayer string.
+
+    Input: string of the current system and integer of number of iteraions.
+    
+    Output: the lindenmayer string after that number of iterations in the L-system.
+    """
     
     # for following the code
     print('\nStarted making the Lindenmayer string')
@@ -51,7 +56,7 @@ def LindIter(System,N):
 
 def turtleGraph(LindenMayerstring):
     """
-    Based on the lindenmayerstring, construct turtlecommands for the turtle
+    Based on the lindenmayerstring, construct turtlecommands for the turtle.
 
     Input: LindenmayerString: A string of symbols representing the state of the system after the Lindemayer iteration.
     
@@ -215,5 +220,5 @@ def factoryReset():
     predefined_systems.append(current_system)
 
     with open('systems.dat', 'wb') as systemsfile:
-                    for s in predefined_systems:
-                        pickle.dump(s, systemsfile)
+        for s in predefined_systems:
+            pickle.dump(s, systemsfile)
