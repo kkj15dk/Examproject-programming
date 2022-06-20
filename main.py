@@ -3,7 +3,7 @@ import settings
 import pickle
 import exact
 import help
-from datastorage import *
+import datastorage
 
 # set global variable system and N
 settings.init()
@@ -23,7 +23,7 @@ while True:
         settings.SystemsList = np.array(["Koch curve","Sierpinski triangle"])
         
         # load previously saved systems
-        loaded_systems = list(loadall('systems.dat'))
+        loaded_systems = list(datastorage.loadall('systems.dat'))
 
         # load all systems, update the settings list and add user defined option
         for sys in loaded_systems:
@@ -99,9 +99,9 @@ while True:
                 elif answer == 'n':
                     break
             # dump the new system along with all preexisting ones
-            current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+            current_system = datastorage.system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
             
-            previous_systems = loadall('systems.dat')
+            previous_systems = datastorage.loadall('systems.dat')
 
             list_of_loaded_systems = []
             for sys in loaded_systems:
@@ -113,7 +113,7 @@ while True:
                 pickle.dump(current_system, systemsfile) # dump new system to pickle
 
             # Update the list of loaded systems
-            loaded_systems = list(loadall('systems.dat'))
+            loaded_systems = list(datastorage.loadall('systems.dat'))
 
 # ------------------------------------------------------------------
 # 5. Factory reset of loaded L-systems

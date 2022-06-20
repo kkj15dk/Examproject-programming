@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import settings
-from datastorage import *
+import datastorage
 import help
 
 def LindIter(System,N):
@@ -35,7 +35,7 @@ def LindIter(System,N):
                 LindenmayerString = LindenmayerString.replace(settings.lettermapping[0,i], settings.lettermapping[1,i].lower())
             LindenmayerString = LindenmayerString.upper()
     else: # To be able to load user defined L-systems from previous instances of the application. For instance, this is where 'Dragon curve' comes from
-        loaded_systems = loadall('systems.dat')
+        loaded_systems = datastorage.loadall('systems.dat')
         for sys in loaded_systems:
             if System == sys.name:
                 settings.name = sys.name
