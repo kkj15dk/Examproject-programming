@@ -17,3 +17,7 @@ The system can then be saved for later!!!
 
 There are som predefined systems which have been loaded at an earlier point.
 Some cannot handle as many iterations, for instance fractal tree, which shouldnt be run at more than 6 iterations unless you have a powerhouse of a computer, but looks really cool :D
+
+# NB
+
+We know some project files have become rather lengthy, but this is only because of the implementation of predefiend and user defined systems.

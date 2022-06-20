@@ -24,6 +24,8 @@ def LindIter(System,N):
             LindenmayerString = LindenmayerString.replace("A","bRARb")
             LindenmayerString = LindenmayerString.replace("B","ALBLA")
             LindenmayerString = LindenmayerString.replace("b","B")
+    
+    # The rest is for loading user defined systems
     elif System == "User defined":
         LindenmayerString = settings.selfdefined_start
         for i in range(N):
@@ -57,7 +59,7 @@ def turtleGraph(LindenMayerstring):
     # for following the code
     print('\nStarted making the turtle commands')
 
-    # setup a vector of zeroes
+    # setup a vector of zeros
     turtleCommands = np.zeros(len(LindenMayerstring), dtype = object)
 
     if settings.System == 'Koch':
@@ -85,7 +87,6 @@ def turtleGraph(LindenMayerstring):
     elif settings.System == 'User defined':
         # load the user defined system
         turtleCommands = loadUserdefined(turtleCommands, LindenMayerstring)
-
     else:
         # Assume there is a system loaded in settings, make turtlecommands based on this
         turtleCommands = loadUserdefined(turtleCommands, LindenMayerstring)
@@ -96,27 +97,34 @@ def turtleGraph(LindenMayerstring):
     return turtleCommands
 
 def turtlePlot(turtleCommands):
-    # Input: turtleCommands: A row vector consisting of alternating length and angle specifications
+    """
+    Input: turtleCommands: A row vector consisting of alternating length and angle specifications
     
+    Output: screen output of the fractal plot
+    """
     # for following the code
     print('\nStarted drawing the fractal')
 
-    # We need to rerout to another turtleplottingfunction if we use a complex L-system
+    # We need to reroute to another turtleplotting function (complexTurtlePlot(turtleCommands)) if we use a complex L-system, different from Sierpinski and Koch
     if settings.System != 'Sierpinski' and settings.System != 'Koch':
         complexTurtlePlot(turtleCommands)
         return
     
+    # Set up vector of zeros for position and direction vectors
     x = np.zeros((int((len(turtleCommands) + 3) / 2), 2))
     d = np.zeros((int((len(turtleCommands) + 1) / 2), 2))
 
+    # Set the first position and direction
     x[0] = np.array([0,0])
     d[0] = np.array([1,0])
 
+    # Calculate all values of d
     for i in range(np.size(d, axis = 0) - 1):
         darray = np.array([[np.cos(turtleCommands[2*i + 1]), -np.sin(turtleCommands[2*i + 1])], [np.sin(turtleCommands[2*i + 1]), np.cos(turtleCommands[2*i + 1])]])
         d[i + 1] = darray.dot(d[i])
 
-    # Mistake in the description of the project. It said d[i + 1], meant d[i]
+    # Calculate all values of x
+    # Mistake in the description of the project. It said d[i + 1], meant d[i] (to our knowledge)
     for i in range(np.size(x, axis = 0) - 1):
         x[i + 1] = x[i] + turtleCommands[2 * i] * d[i]
 

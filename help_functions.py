@@ -4,37 +4,45 @@ import matplotlib.pyplot as plt
 import settings
 
 def inputInt(prompt):
-    # Ask the user to input an integer
+    """
+    Ask the user to input an integer
+    """
     while True:
         try:
             num = int(input(prompt))
             break
         except ValueError:
-            pass
+            print('Error: Please input a valid number')
     return num
 
 def inputStr(prompt):
-    # Ask the user to input an integer
+    """
+    Ask the user to input an integer
+    """
     while True:
         try:
             num = str(input(prompt))
             break
         except ValueError:
-            pass
+            print('Error: Please input a string')
     return num
 
 def inputFloat(prompt):
-    # Ask the user to input a float
+    """ 
+    Ask the user to input a float
+    """
     while True:
         try:
             num = float(input(prompt))
             break
         except ValueError:
-            pass
+            print('Error: Please input a valid number')
     return num
 
 def inputFraction(prompt):
-    # Ask the user to input an fraction or float
+    """
+    Ask the user to input an fraction or float
+    """
     while True:
         try:
             userinput = input(prompt)
@@ -45,14 +53,15 @@ def inputFraction(prompt):
                 num = float(userinput)
                 break
             except ValueError:
-                pass
+                print('Error: Please input a valid number (a simple fraction or float)')
     return num
 
 def displayMenu(options, message):
-    # makes a menu of items that can be selected for
-    # Input: the options of a menu, as well as the message to be displayed afterwards.
-    # Output: the menu
-
+    """
+    makes a menu of items that can be selected for
+    Input: the options of a menu, as well as the message to be displayed afterwards.
+    Output: the menu, the choice
+    """
     print('\n') # for prettier format
 
     for i in range(len(options)):
@@ -64,29 +73,21 @@ def displayMenu(options, message):
         choice = inputInt(message)
     
     return choice
-
-def displayMenuStr(options, message):
-    # makes a menu of items that can be selected for
-    # Input: the options of a menu, as well as the message to be displayed afterwards.
-    # Output: the menu, the choice
-
-    print('\n') # for prettier format
-
-    for i in range(len(options)):
-        print("{:d}. {:s}".format(i+1, options[i]))
-    
-    choice = 0
-    
-    while not(np.any(choice == np.arange(len(options))+1)):
-        choice = inputInt(message)
-    
-    return choice
-
 
 def selfDefinedSystem():
-    # User input to define their own system. Changes settings file
-    # Input: user input for the self defined L-system
-    # Output:
+    """
+    User input to define their own system. Changes settings file.
+
+    The user is first asked to input the alphabet of their system.
+    Then the value they want the line segments to be scaled by after each iteration.
+    Then the startcondition of the system (axiom).
+    For each letter of their alphabet, they must then specify the function of that letter, unless it is [ or ], where the function is assumed to be save position and load position respectively.
+    Also, the specific angle to turn must be specified, if the letter is chosen to represent an angle.
+
+    Input: user input for the self defined L-system
+    
+    Output: none
+    """
     letteroptions = np.array(['A length', 'An angle', 'Do nothing'])
     while True:
         alphabet = input('\nInput the alphabet of the system(without spaces), make sure you have no duplicates, and only uppercase letters (or [ or ] for saving/loading position): ')
@@ -153,8 +154,16 @@ def selfDefinedSystem():
     return
 
 def complexTurtlePlot(turtleCommands):
-    # Input: turtleCommands: A row vector consisting of alternating length and angle specifications
-    
+    """
+    A function to plot the fractal using a turtle, more complex than the standard turtlePlot function to accompany user defined systems.
+
+    This function is implemented to be able to produce complex plots based on turtlecommands that don't neccesarily alternate between angle and length.
+
+    Input: turtleCommands: A row vector consisting of alternating length and angle specifications
+
+    Output: Screen output of the plot
+    """
+
     saved_positions = []
     saved_angles = []
 
@@ -192,7 +201,11 @@ def complexTurtlePlot(turtleCommands):
     plt.show()
 
 def loadUserdefined(turtleCommands, LindenMayerstring):
-    # load the user defined system
+    """
+    Loads the user defined system.
+
+    Based on the variables in settings, 
+    """
     l = settings.iteration_scaling**settings.N
 
     settings.turtleAction = np.zeros(np.size(turtleCommands), dtype = object)
@@ -200,7 +213,7 @@ def loadUserdefined(turtleCommands, LindenMayerstring):
     for i in range(len(LindenMayerstring)):
         command = settings.lettermapping[2][LindenMayerstring[i] == settings.lettermapping[0]] # vectorization is cool
         if command == 'l':
-            turtleCommands[i] = l # i have to have this here, i cannot move it to turtlePlot because of the project specifications
+            turtleCommands[i] = l # We have to have this here, we cannot move it to turtlePlot because of the project specifications
             settings.turtleAction[i] = 'length'
         elif command == 'save':
             turtleCommands[i] = 'save'
