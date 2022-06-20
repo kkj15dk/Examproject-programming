@@ -1,8 +1,8 @@
 import numpy as np
 import settings
 import pickle
-from exact_functions import *
-from help_functions import *
+import exact
+import help
 from datastorage import *
 
 # set global variable system and N
@@ -15,7 +15,7 @@ menuItems = np.array(["Choose type of Lindenmayer system and number of iteration
 # Start
 while True:
 # Display menu options and ask user to choose a menu item
-    choice = displayMenu(menuItems, "\nPlease choose a menu item: ")
+    choice = help.displayMenu(menuItems, "\nPlease choose a menu item: ")
 # Menu item chosen
 # ------------------------------------------------------------------
 # 1. Load data
@@ -30,7 +30,7 @@ while True:
             settings.SystemsList = np.append(settings.SystemsList, sys.name)
         settings.SystemsList = np.append(settings.SystemsList, "User defined")
 # Ask user which type of Lindenmayer system to use
-        Systemnumber = int(displayMenu(settings.SystemsList, "\nplease enter the Lindenmayer system you would like to work with: "))
+        Systemnumber = int(help.displayMenu(settings.SystemsList, "\nplease enter the Lindenmayer system you would like to work with: "))
         settings.System = settings.SystemsList[Systemnumber-1]
         # Have to rename the systems, since this is the input they need in LindIter()
         if settings.System == "Koch curve":
@@ -40,7 +40,7 @@ while True:
         
         # To ask the user of the amount of iterations, and to tell them if they choose a lot of iterations if they're certain they want to continue
         while True:
-            settings.N = inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
+            settings.N = help.inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
             if settings.N < 0:
                 print("Iterations cannot be less than 0")
             elif settings.N >13:
@@ -59,7 +59,7 @@ while True:
                 break
 
         if settings.System == 'User defined':
-            selfDefinedSystem() # asks for user input for the self defined system. Saves input globally.
+            help.selfDefinedSystem() # asks for user input for the self defined system. Saves input globally.
 
 # ------------------------------------------------------------------
 # 2. Generate plot
@@ -69,9 +69,9 @@ while True:
 # Display error message
             print("\nError: No system and iteration chosen, please choose those")
         else:
-            LindenmayerString = LindIter(settings.System,settings.N)
-            turtleCommands = turtleGraph(LindenmayerString)
-            turtlePlot(turtleCommands)
+            LindenmayerString = exact.LindIter(settings.System,settings.N)
+            turtleCommands = exact.turtleGraph(LindenmayerString)
+            exact.turtlePlot(turtleCommands)
 # ------------------------------------------------------------------
 # 3. Change number of iterations
     elif choice == 3:
@@ -80,7 +80,7 @@ while True:
 # Display error message
             print("\nError: No system and iteration chosen, please choose those")
         else:
-            settings.N = inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
+            settings.N = help.inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
 # ------------------------------------------------------------------
 # 4. Save current system
     elif choice == 4:
@@ -118,7 +118,7 @@ while True:
 # ------------------------------------------------------------------
 # 5. Factory reset of loaded L-systems
     elif choice == 5:
-        factoryReset()
+        help.factoryReset()
 # ------------------------------------------------------------------
 # 6. Quit
     elif choice == 6:

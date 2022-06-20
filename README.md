@@ -2,10 +2,11 @@
 
 We have chosen project 2D - Lindemayer systems
 
-exact_functions.py is for the functions described in the exam pdf. These have to be precise.
-help_function.py are other functions, which are used throughout the project
+exact.py is for the functions described in the exam pdf. These have to be precise.
+help.py are other functions, which are used throughout the project
 datastorage.p is for a function and a class for used to be able to store user defined L systems
-settings.py is for global storage of the current L system. This had to be done, since the input variables of the exact_functions.py could not be altereed, since that wouldn't comply with project specification, so settings.py is a way to circumvent this problem
+settings.py is for global storage of the current L system. This had to be done, since the input variables of the exact_functions.py could not be altereed, since that wouldn't comply with project specification, so settings.py is a way to circumvent this problem.
+We know using global variables like this is bad practice, but it was the solution we chose, since we couldn't pass these arguments as input for the functions.
 
 It is possible to define ones own system!
 Here, you can only use capital letters for denoting the turtle to either draw a line, rotate some angle, or do nothing at all

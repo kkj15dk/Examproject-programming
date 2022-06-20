@@ -228,3 +228,78 @@ def loadUserdefined(turtleCommands, LindenMayerstring):
             turtleCommands[i] = float(command[0])
             settings.turtleAction[i] = 'other'
     return turtleCommands
+
+def factoryReset():
+    """
+    For loading predefined systems into systems.dat using pickle, instead of loading each manually using the interface.
+    """
+    
+    import pickle
+    from datastorage import system
+
+    # Create empty array
+    predefined_systems = []
+
+    # Koch Snowflake
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Koch snowflake'
+    settings.selfdefined_start = 'FLLFLLF'
+    settings.iteration_scaling = 1/3
+    settings.lettermapping = np.array([['F','L','R'],['FRFLLFRF','L', 'R'],['l', 1/3*np.pi, -1/3*np.pi],['length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Right angled Koch curve
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Right angled Koch curve'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1/3
+    settings.lettermapping = np.array([['F','L','R'],['FLFRFRFLF','L', 'R'],['l', 1/2*np.pi, -1/2*np.pi],['length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Dragon curve
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Dragon curve'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['F', 'G', 'L','R'],['FLG','FRG','L', 'R'],['l', 'l', 1/2*np.pi, -1/2*np.pi],['length','length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Levy curve
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Levy curve'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['F','L','R'],['LFRRFL','L', 'R'],['l', 1/4*np.pi, -1/4*np.pi],['length','other','other']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Fractal tree
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Fractal tree'
+    settings.selfdefined_start = 'X'
+    settings.iteration_scaling = 1/2
+    settings.lettermapping = np.array([['X', 'F', 'L', 'R', '[', ']'],['FL[[X]RX]RF[RFX]LX','FF','L', 'R', '[', ']'],['nothing', 'l', 25/180*np.pi, -25/180*np.pi, 'save', 'load'],['other','length','other','other', 'save', 'load']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    # Fractal bush
+    settings.System = 'User defined'
+    settings.N = 2
+    settings.name = 'Fractal bush'
+    settings.selfdefined_start = 'F'
+    settings.iteration_scaling = 1
+    settings.lettermapping = np.array([[ 'F', 'L', 'R', '[', ']'],['FFl[LFRFRF]R[RFLFLF]','L', 'R', '[', ']'],['l', 45/360*np.pi, -45/360*np.pi, 'save', 'load'],['length','other','other', 'save', 'load']])
+    current_system = system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
+    predefined_systems.append(current_system)
+
+    with open('systems.dat', 'wb') as systemsfile:
+        for s in predefined_systems:
+            pickle.dump(s, systemsfile)
