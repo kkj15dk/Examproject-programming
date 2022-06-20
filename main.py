@@ -7,8 +7,7 @@ from datastorage import *
 
 # set global variable system and N
 settings.init()
-# load previously saved systems
-loaded_systems = list(loadall('systems.dat'))
+
 # Define menu items
 # Define used variables
 menuItems = np.array(["Choose type of Lindenmayer system and number of iterations", "Generate plots", "Change number of iterations", "Save current L-system", "Factory reset of loaded L-systems", "Quit"])
@@ -23,6 +22,9 @@ while True:
     if choice == 1:
         settings.SystemsList = np.array(["Koch curve","Sierpinski triangle"])
         
+        # load previously saved systems
+        loaded_systems = list(loadall('systems.dat'))
+
         # load all systems, update the settings list and add user defined option
         for sys in loaded_systems:
             settings.SystemsList = np.append(settings.SystemsList, sys.name)
@@ -110,6 +112,8 @@ while True:
                     pickle.dump(s, systemsfile)
                 pickle.dump(current_system, systemsfile) # dump new system to pickle
 
+            # Update the list of loaded systems
+            loaded_systems = list(loadall('systems.dat'))
 
 # ------------------------------------------------------------------
 # 5. Factory reset of loaded L-systems
