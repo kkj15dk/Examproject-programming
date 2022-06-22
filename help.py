@@ -17,14 +17,14 @@ def inputInt(prompt):
 
 def inputStr(prompt):
     """
-    Ask the user to input an integer
+    Ask the user to input a string
     """
     while True:
         try:
             num = str(input(prompt))
             break
         except ValueError:
-            print('Error: Please input a string')
+            print('Error: Please input a valid string')
     return num
 
 def inputFloat(prompt):
@@ -41,7 +41,7 @@ def inputFloat(prompt):
 
 def inputFraction(prompt):
     """
-    Ask the user to input an fraction or float
+    Ask the user to input a fraction or float
     """
     while True:
         try:
@@ -58,7 +58,8 @@ def inputFraction(prompt):
 
 def displayMenu(options, message):
     """
-    makes a menu of items that can be selected for
+    Makes a menu of items that can be selected for.
+
     Input: the options of a menu, as well as the message to be displayed afterwards.
     Output: the menu, the choice
     """
@@ -204,7 +205,7 @@ def loadUserdefined(turtleCommands, LindenMayerstring):
     """
     Loads the user defined system.
 
-    Based on the variables in settings, 
+    Based on the variables in settings, make turtlecommands and turtleactions
     """
     l = settings.iteration_scaling**settings.N
 

@@ -43,9 +43,9 @@ while True:
             settings.N = help.inputInt("\nPlease choose the amount of iterations (recommended 0-9): ")
             if settings.N < 0:
                 print("Iterations cannot be less than 0")
-            elif settings.N >13:
+            elif settings.N > 9:
                 while True: 
-                    print("\nLarge amount of iterations, will have a long computing time")   
+                    print("\nLarge amount of iterations, might have a long computing time")   
                     svar = input('Do you still wish to continue (y/n): ')
                     if svar.lower() == "y" or svar.lower() == "n":
                         break
@@ -98,7 +98,8 @@ while True:
                     break
                 elif answer == 'n':
                     break
-            # dump the new system along with all preexisting ones
+            
+            # Dump the new system along with all preexisting ones
             current_system = datastorage.system(settings.name, settings.lettermapping, settings.selfdefined_start, settings.iteration_scaling) # create system based on system class
             
             previous_systems = datastorage.loadall('systems.dat')
@@ -109,8 +110,8 @@ while True:
 
             with open('systems.dat', 'wb') as systemsfile:
                 for s in list_of_loaded_systems:
-                    pickle.dump(s, systemsfile)
-                pickle.dump(current_system, systemsfile) # dump new system to pickle
+                    pickle.dump(s, systemsfile) # Dump all preexisting systems
+                pickle.dump(current_system, systemsfile) # Dump new system to pickle
 
             # Update the list of loaded systems
             loaded_systems = list(datastorage.loadall('systems.dat'))

@@ -2,9 +2,9 @@ import pickle
 
 class system():
     """ 
-    A class for saving the cyrrent system using pickle.
+    A class for saving the current system using pickle.
 
-    The class  the following:
+    The class has the following:
 
     name: string of the name of the system
     lettermap: numpy array object with alphabet of the L-system, along with replacement rules turtleCommands and turtleActions
