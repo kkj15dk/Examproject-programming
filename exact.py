@@ -16,6 +16,7 @@ def LindIter(System,N):
     # for following the code
     print('\nStarted making the Lindenmayer string')
 
+    # For koch or sierpinski system
     if System == "Koch":
         LindenmayerString = 'S'
         for i in range(N):
@@ -68,6 +69,7 @@ def turtleGraph(LindenMayerstring):
     # setup a vector of zeros
     turtleCommands = np.zeros(len(LindenMayerstring), dtype = object)
 
+    # A global variable, settings.System, is used to differentiate between different L-systems
     if settings.System == 'Koch':
         # the length for Koch system
         l = (1/3)**settings.N

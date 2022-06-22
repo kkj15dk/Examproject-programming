@@ -61,7 +61,7 @@ def displayMenu(options, message):
     Makes a menu of items that can be selected for.
 
     Input: the options of a menu, as well as the message to be displayed afterwards.
-    Output: the menu, the choice
+    Output: the menu in teh terminal, returns the choice of the user
     """
     print('\n') # for prettier format
 
@@ -160,7 +160,7 @@ def complexTurtlePlot(turtleCommands):
 
     This function is implemented to be able to produce complex plots based on turtlecommands that don't neccesarily alternate between angle and length.
 
-    Input: turtleCommands: A row vector consisting of alternating length and angle specifications
+    Input: turtleCommands: A row vector consisting of alternating length and angle specifications. Doesn't have to be alternating if the system loaded isn't Sierpinski or Koch
 
     Output: Screen output of the plot
     """
@@ -205,7 +205,7 @@ def loadUserdefined(turtleCommands, LindenMayerstring):
     """
     Loads the user defined system.
 
-    Based on the variables in settings, make turtlecommands and turtleactions
+    Based on the variables in settings, makes turtlecommands and turtleactions.
     """
     l = settings.iteration_scaling**settings.N
 

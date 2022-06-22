@@ -9,8 +9,8 @@ settings.py is for global storage of the current L system. This had to be done, 
 We know using global variables like this is bad practice, but it was the solution we chose, since we couldn't pass these arguments as input for the functions.
 
 It is possible to define ones own system!
-Here, you can only use capital letters for denoting the turtle to either draw a line, rotate some angle, or do nothing at all
-You can also use [ for saving a position, and ] for returning to the most recently saved position, deleting that position so it cannot be returned to again
+Here, you can use capital letters for denoting the turtle to either draw a line, rotate some angle, or do nothing at all.
+You can also use [ for saving a position, and ] for returning to the most recently saved position, deleting that position so it cannot be returned to again.
 
 The system can then be saved for later!!!
 
