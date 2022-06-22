@@ -50,7 +50,7 @@ while True:
                     if svar.lower() == "y" or svar.lower() == "n":
                         break
                     else:
-                        pass
+                        print('\nPlease input either y or n')
                 if svar.lower == "n":
                     pass
                 else:

@@ -3,9 +3,9 @@
 We have chosen project 2D - Lindemayer systems
 
 exact.py is for the functions described in the exam pdf. These have to be precise.
-help.py are other functions, which are used throughout the project
-datastorage.p is for a function and a class for used to be able to store user defined L systems
-settings.py is for global storage of the current L system. This had to be done, since the input variables of the exact_functions.py could not be altereed, since that wouldn't comply with project specification, so settings.py is a way to circumvent this problem.
+help.py are other functions, which are used throughout the project.
+datastorage.py is for a function and a class used to be able to store user defined L systems.
+settings.py is for global storage of the current L system. This had to be done, since the input variables of the exact.py functions could not be altered, since that wouldn't comply with project specification, so settings.py is a way to circumvent this problem.
 We know using global variables like this is bad practice, but it was the solution we chose, since we couldn't pass these arguments as input for the functions.
 
 It is possible to define ones own system!
@@ -21,5 +21,5 @@ Some cannot handle as many iterations, for instance fractal tree, which shouldnt
 
 # NB
 
-There are some global variables defined in settings.py. These are used to define user defined systems, and are used to 
+There are some global variables defined in settings.py. These are used to define user defined systems, and are loaded in certain functions, because they couldn't take more input variables.
 Also, we know some project files have become rather lengthy, but this is only because of the implementation of predefiend and user defined systems.
